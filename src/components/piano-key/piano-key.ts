@@ -45,8 +45,6 @@ class PianoKey extends BaseElement {
                 detail: { note: this.getAttribute("note") },
             }),
         );
-
-        playNote(A4);
     }
 
     #release() {
