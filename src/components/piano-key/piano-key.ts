@@ -1,6 +1,6 @@
 import { BaseElement } from "../base";
 import styles from "./piano-key.css?inline" assert { type: "css" };
-import templateHTML from "./piano-key.html?raw";
+import templateHTML from "./piano-key.html?raw" assert { type: "html" };
 
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(styles);
