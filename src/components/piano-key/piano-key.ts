@@ -20,7 +20,7 @@ class PianoKey extends BaseElement {
     }
 
     protected connected() {
-        this.shadowRoot?.adoptedStyleSheets.push(sheet);
+        this.shadowRoot!.adoptedStyleSheets = [sheet];
 
         const key = this.shadowRoot?.querySelector<HTMLDivElement>(".key")!;
 
