@@ -1,9 +1,13 @@
+import { myhtml } from "../../reactivity/binder";
+import { createSignal } from "../../reactivity/reactivity";
 import { BaseElement } from "../base";
 import styles from "./piano-key.css?inline" assert { type: "css" };
 import templateHTML from "./piano-key.html?raw" assert { type: "html" };
 
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(styles);
+
+const [pressed, setPressed] = createSignal(false);
 
 const template = document.createElement("template");
 template.innerHTML = templateHTML;
@@ -22,6 +26,10 @@ class PianoKey extends BaseElement {
     protected connected() {
         this.shadowRoot!.adoptedStyleSheets = [sheet];
 
+        this.shadowRoot?.appendChild(
+            myhtml`<div>This is text. ${() => (pressed() ? "PLAYING" : "WAITING")}</div>`,
+        );
+
         const key = this.shadowRoot?.querySelector<HTMLDivElement>(".key")!;
 
         key.addEventListener("pointerdown", () => this.#press());
@@ -38,6 +46,7 @@ class PianoKey extends BaseElement {
 
     #press() {
         this.#pressed = true;
+        setPressed(true);
         this.setAttribute("pressed", "");
         this.dispatchEvent(
             new CustomEvent("note:start", {
@@ -49,6 +58,7 @@ class PianoKey extends BaseElement {
 
     #release() {
         this.#pressed = false;
+        setPressed(false);
         this.removeAttribute("pressed");
         this.dispatchEvent(
             new CustomEvent("note:stop", {
