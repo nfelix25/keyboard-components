@@ -14,3 +14,7 @@
 :host([pressed]) .key {
     background: var(--key-pressed-color, black);
 }
+
+:host([ready="true"]) {
+    cursor: pointer;
+}

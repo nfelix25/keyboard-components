@@ -17,6 +17,16 @@ const NOTES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 const A4 = noteToFreq("A4"); // 440
 
 class PianoKey extends BaseElement {
+    static observedAttributes = ["ready"];
+
+    attributeChangedCallback(
+        name: string,
+        oldValue: string | null,
+        newValue: string | null,
+    ) {
+        console.log({ name, oldValue, newValue });
+    }
+
     #pressed = false;
 
     get template(): HTMLTemplateElement {
@@ -34,13 +44,17 @@ class PianoKey extends BaseElement {
 
         key.addEventListener("pointerdown", () => this.#press());
         key.addEventListener("pointerenter", (e) => {
+            this.setAttribute("ready", "true");
             if (e.buttons > 0) {
                 this.#press();
             }
         });
 
         key.addEventListener("pointerup", () => this.#release());
-        key.addEventListener("pointerleave", () => this.#release());
+        key.addEventListener("pointerleave", () => {
+            this.setAttribute("ready", "false");
+            this.#release();
+        });
         key.addEventListener("pointercancel", () => this.#release());
     }
 
