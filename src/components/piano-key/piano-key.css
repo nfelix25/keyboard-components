@@ -6,6 +6,10 @@
     touch-action: none;
 }
 
+:host([color="purple"]) .key {
+    background: purple;
+}
+
 :host {
     user-select: none;
     -webkit-user-select: none;

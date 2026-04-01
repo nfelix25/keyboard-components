@@ -17,7 +17,7 @@ const NOTES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 const A4 = noteToFreq("A4"); // 440
 
 class PianoKey extends BaseElement {
-    static observedAttributes = ["ready"];
+    static observedAttributes = ["ready", "color"];
 
     attributeChangedCallback(
         name: string,
@@ -25,6 +25,10 @@ class PianoKey extends BaseElement {
         newValue: string | null,
     ) {
         console.log({ name, oldValue, newValue });
+        if (name === "color") {
+            // Update the background color
+            this.style.setProperty("--key-color", newValue ?? "black");
+        }
     }
 
     #pressed = false;
@@ -56,6 +60,13 @@ class PianoKey extends BaseElement {
             this.#release();
         });
         key.addEventListener("pointercancel", () => this.#release());
+
+        key.querySelector("input")?.addEventListener("change", (e) => {
+            this.setAttribute(
+                "color",
+                e.target instanceof HTMLInputElement ? e.target.value : "",
+            );
+        });
     }
 
     #press() {

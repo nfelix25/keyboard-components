@@ -62,6 +62,7 @@ export function myhtml(
     strings: TemplateStringsArray,
     ...values: unknown[]
 ): DocumentFragment {
+    console.log({ strings, values });
     // 1. Build HTML with comment markers
     const markup = strings.reduce(
         (acc, str, i) =>
